@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.gcd.service.buildtypes</groupId>
+		<artifactId>Parent</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.gcd.service.buildtypes</groupId>
+	<artifactId>JavaBuild</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+	<name>Build Type Java Build</name>
+	<packaging>pom</packaging>
+
+    <properties>
+        <involveparty.basedir>${project.parent.parent.basedir}</involveparty.basedir>
+    </properties>
+    
+	<build>
+		<defaultGoal>deploy</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<compilerVersion>1.7</compilerVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                            <configuration>
+                                <configLocation>./../resources/checkstyle/Service_checks.xml</configLocation>
+                                <consoleOutput>true</consoleOutput>
+                                <failOnViolation>false</failOnViolation>
+                                <encoding>UTF-8</encoding>
+                            </configuration>
+                        <goals>
+                          <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+			<!-- <plugin>
+			  <groupId>org.codehaus.mojo</groupId>
+			  <artifactId>findbugs-maven-plugin</artifactId>
+			  <version>2.5</version>
+			  <configuration>
+			     <failOnViolation>false</failOnViolation>
+				 <failOnError>false</failOnError>
+				 <xmlOutput>true</xmlOutput>
+				 <xmlOutputDirectory>target/reports/findbugs</xmlOutputDirectory>
+				 <effort>Max</effort>
+				 <threshold>Low</threshold>
+				 <excludeFilterFile></excludeFilterFile>
+			  </configuration>
+			   <executions>
+				   <execution>
+					   <phase>compile</phase>
+					   <goals>
+						   <goal>check</goal>
+					   </goals>
+				   </execution>
+			   </executions>
+			</plugin> -->
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>sonar</phase>
+                        <goals>
+                            <goal>sonar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+               <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.34</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+		    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.10</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+			<!-- <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+			    <artifactId>findbugs-maven-plugin</artifactId>
+			    <version>2.5</version>
+				<configuration>
+				    <failOnViolation>false</failOnViolation>
+					<outputDirectory>target/site/findbugs</outputDirectory>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+				</configuration>
+			</plugin> -->
+		</plugins>
+	</reporting>
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.0</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

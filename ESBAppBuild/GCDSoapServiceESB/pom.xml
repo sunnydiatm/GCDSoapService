@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.gcd.service.buildtypes</groupId>
+		<artifactId>EARBuild</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>../../ApplicationBuildTypes/EARBuild/pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.gcd.service.app</groupId>
+	<artifactId>GCDSoapServiceESB</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+	<name>GCD ESB Service EAR</name>
+	<packaging>ear</packaging>
+
+    <properties>
+        <origination.basedir>${project.parent.parent.basedir}</origination.basedir>
+    </properties>
+    
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<displayName>GCDSoapServiceESB</displayName>
+					<skinnyWars>true</skinnyWars>
+					<defaultJavaBundleDir>lib/</defaultJavaBundleDir>
+					<version>5</version>
+					<modules>
+						<webModule>
+							<groupId>com.gcd.service.gcd</groupId>
+							<artifactId>GCDService</artifactId>
+							<contextRoot>/GCDService</contextRoot>
+						</webModule>
+					</modules>
+					<security>
+                        <security-role id="SecurityRole_1029389856">
+                            <role-name>GCDServiceRole</role-name>
+                            <description>GCDService role</description>
+                        </security-role>
+                    </security>
+					<archive>
+						<manifestEntries>
+							<Implementation-Version>${project.version}</Implementation-Version>
+						</manifestEntries>
+		             	<!-- <manifestFile>MANIFEST.MF</manifestFile>-->
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.gcd.service.gcd</groupId>
+			<artifactId>GCDService</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+        <!-- Common jars for all web module -->
+        <dependency>
+            <groupId>com.gcd.service.gcd</groupId>
+            <artifactId>GCDServiceDefinition</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <version>2.1.4</version>
+        </dependency>
+	</dependencies>
+</project>

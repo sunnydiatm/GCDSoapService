@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:security="http://www.springframework.org/schema/security"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.0.3.xsd
+">
+<tx:annotation-driven  transaction-manager="transactionManager" proxy-target-class="true"/>
+<context:annotation-config/>
+<context:component-scan base-package="com.gcd.service.dao" />
+
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	   <property name="jndiName" value="java:comp/env/jdbc/CLVDS" />
+	 </bean> -->
+	 
+	 <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+	  <property name="brokerURL">
+	   	<value>tcp://localhost:61616</value>
+	  </property>
+	 </bean>
+	 
+	 <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+	  <constructor-arg value="GCD_QUEUE" />
+	 </bean>
+	 
+	 <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+	  <property name="connectionFactory" ref="connectionFactory" />
+	  <property name="defaultDestination" ref="destination" />
+	 </bean>
+	 
+	 <bean id="messageReceiver" class="com.gcd.service.mq.MessageReceiver">
+	  <property name="jmsTemplate" ref="jmsTemplate"/>
+	 </bean>
+	 
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/Mysql" />
+		<property name="username" value="root" />
+		<property name="password" value="P@55word" />
+	 </bean>
+	 
+<!-- 	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@3.241.162.189:1521"/>
+		<property name="username" value="root"/>
+		<property name="password" value="password"/>
+	</bean> -->
+	 
+	 
+	 
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" >
+       <property name="dataSource">
+            <ref bean="dataSource"/>
+       </property>
+    </bean>
+    
+    <bean id="gcdServiceDAO" class="com.gcd.service.dao.GCDServiceDAO">
+		<property name="jdbc">
+			<ref bean="jdbcTemplate"/>
+		</property>         
+    </bean>
+    
+    <bean id="gcdController" class="com.gcd.service.controller.GCDServiceController">
+		<property name="dao">
+			<ref bean="gcdServiceDAO"/>
+		</property>
+		<property name="messageReceiver">
+			<ref bean="messageReceiver"/>
+		</property>     
+    </bean>
+    
+    
+	<bean id="applicationContextProvider" class="com.gcd.service.config.ApplicationContextProvider">
+	</bean> 
+     
+	 
+</beans>
+

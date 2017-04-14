@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.gcd.service.buildtypes</groupId>
+		<artifactId>JavaBuild</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>../../ApplicationBuildTypes/JavaBuild/pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.gcd.service.gcd</groupId>
+	<artifactId>GCDServiceDefinition</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+	<name>GCDService Definition JAR</name>
+	<packaging>jar</packaging>
+
+    <properties>
+        <origination.basedir>${project.parent.parent.basedir}</origination.basedir>
+    </properties>
+    
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>1.9</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						  <configuration>
+						    <bindingFiles>
+						       <bindingFile>jaxb-bindings.xml</bindingFile>
+						     </bindingFiles>
+						   </configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-service-definition</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/wsdl</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/wsdl</directory>
+                                    <includes>
+                                        <include>*.xsd</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- <dependency>
+			<groupId>com.ibm.websphere.appserver.thin-client</groupId>
+			<artifactId>jaxws_thinclient</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency> -->
+	    <dependency>
+	       <groupId>javax.jws</groupId>
+	       <artifactId>jsr181-api</artifactId>
+	       <version>1.0-MR1</version>
+	     </dependency>
+		
+	</dependencies>
+</project>

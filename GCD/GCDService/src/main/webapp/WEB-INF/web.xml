@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<display-name>GCDSoap Service</display-name>
+	<description>GCDSoap Service</description>
+
+   <!--  <resource-ref>
+        <description>CLV Oracle RAC Database</description>
+        <res-ref-name>jdbc/CLVDS</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+        <mapped-name>jdbc/CLVDS</mapped-name>
+    </resource-ref> -->
+    
+    <context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>/WEB-INF/application-context.xml</param-value>
+    </context-param>
+	<listener>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener> 
+</web-app>

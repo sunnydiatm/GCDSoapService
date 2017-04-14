@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GCDSoapServices"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:binding="http://soap.gcd.service/binding"
+	targetNamespace="http://soap.gcd.service/services"
+	xmlns:port="http://soap.gcd.service/services"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<wsdl:types>
+		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" 
+					xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+					targetNamespace="http://soap.gcd.service/services" 
+					xmlns:ser="http://soap.gcd.service/GCDSoapServices">
+		<import namespace="http://soap.gcd.service/GCDSoapServices" schemaLocation="GCDSoapServices.xsd"/>
+		
+		<element name="ProcessingException" type="ser:ProcessingException"/>
+		
+		<element name="gcdRequest" type="ser:gcdRequest"/>
+		<element name="gcdResponse"  type="ser:gcdResponse"/>
+		<element name="gcdListRequest" type="ser:gcdListRequest"/>
+		<element name="gcdListResponse"  type="ser:gcdListResponse"/>
+		<element name="gcdSumRequest"  type="ser:gcdSumRequest"/>
+		<element name="gcdSumResponse"  type="ser:gcdSumResponse"/>
+		
+		</xsd:schema>
+	</wsdl:types>
+	
+	<!--  Messages -->
+
+		<wsdl:message name="gcdRequest">
+			<wsdl:part element="port:gcdRequest" name="parameters" />
+		</wsdl:message>
+		<wsdl:message name="gcdResponse">
+			<wsdl:part element="port:gcdResponse" name="parameters" />
+		</wsdl:message>
+		<wsdl:message name="gcdListRequest">
+			<wsdl:part element="port:gcdListRequest" name="parameters" />
+		</wsdl:message>
+		<wsdl:message name="gcdListResponse">
+			<wsdl:part element="port:gcdListResponse" name="parameters" />
+		</wsdl:message>
+		<wsdl:message name="gcdSumRequest">
+			<wsdl:part element="port:gcdSumRequest" name="parameters" />
+		</wsdl:message>
+		<wsdl:message name="gcdSumResponse">
+			<wsdl:part element="port:gcdSumResponse" name="parameters" />
+		</wsdl:message>
+		
+		<wsdl:message name="ProcessingFault">
+			<wsdl:part name="fault" element="port:ProcessingException" />
+		</wsdl:message>
+	
+<!-- Port -->
+	
+	<wsdl:portType name="GCDSoapServicesPort">		
+	
+		<wsdl:operation name="gcd">
+			<wsdl:input message="port:gcdRequest" name="gcdRequest" />
+			<wsdl:output message="port:gcdResponse" name="gcdResponse" />				
+			<wsdl:fault message="port:ProcessingFault" name="ProcessingFault" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="gcdList">
+			<wsdl:input message="port:gcdListRequest" name="gcdListRequest" />
+			<wsdl:output message="port:gcdListResponse" name="gcdListResponse" />				
+			<wsdl:fault message="port:ProcessingFault" name="ProcessingFault" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="gcdSum">
+			<wsdl:input message="port:gcdSumRequest" name="gcdSumRequest" />
+			<wsdl:output message="port:gcdSumResponse" name="gcdSumResponse" />				
+			<wsdl:fault message="port:ProcessingFault" name="ProcessingFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+
+<!--  Binding -->
+	
+	<wsdl:binding name="GCDServicesPortSoapBinding"
+		type="port:GCDSoapServicesPort">
+
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+	
+		<wsdl:operation name="gcd">
+			<soap:operation soapAction="" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingFault">
+				<soap:fault name="ProcessingFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="gcdList">
+			<soap:operation soapAction="" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingFault">
+				<soap:fault name="ProcessingFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="gcdSum">
+			<soap:operation soapAction="" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ProcessingFault">
+				<soap:fault name="ProcessingFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	
+<!-- Service -->
+	<wsdl:service name="GCDSoapServices">
+		<wsdl:port binding="port:GCDServicesPortSoapBinding" name="GCDSoapServicesPort">
+			<soap:address location="http://localhost:8080/GCDService/GCDSoapServices" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
+
+

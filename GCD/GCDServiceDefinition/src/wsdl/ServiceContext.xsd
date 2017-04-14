@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:ctx="http://soap.gcd.service/context" 
+	targetNamespace="http://soap.gcd.service/context" version="1.0">
+	
+	<xsd:complexType name="ServiceContext">
+		<xsd:sequence>
+			<xsd:element name="consumer" type="ctx:ConsumerContext" minOccurs="0"/>
+			<xsd:element name="exceptions" type="ctx:ExceptionCollection" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Which systems can throw an error for an application submitted from SFDC -->
+    <xsd:simpleType name="SourceSystem">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="WAS85AppTier"/>
+            <xsd:enumeration value="WAS85ServiceTier"/>
+            <xsd:enumeration value="WebsphereMQ"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- Severity of exception thrown from backend systems listed above -->
+    <xsd:simpleType name="Severity">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="VALIDATION_ERROR"/>
+            <xsd:enumeration value="SYSTEM_ERROR"/>
+            <xsd:enumeration value="SYSTEM_WARNING"/>
+            <xsd:enumeration value="BUSINESS_ERROR"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!--
+        Exception Code Conversion       
+        Use 2 letters from the System Type and three digit sequence number starting from 001 (e.g <SystemID>-<Number>)
+    
+        DP = DataPower
+        LD = LDAP
+        AC = Activate
+        WS = WAS85ServiceTier
+        MQ = Websphere MQ
+    -->
+    <xsd:simpleType name="ExceptionCode">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AC-001"/>
+            <xsd:enumeration value="WS-001"/>
+            <xsd:enumeration value="MQ-001"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- To capture the business and sub business unit from calling system -->
+	<xsd:complexType name="BusinessContext">
+		<xsd:sequence>
+			<xsd:element name="mainBusinessUnit" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="subBusinessUnit" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- To identify calling system and based on that service routing could happen -->
+	<xsd:complexType name="ConsumerContext">
+		<xsd:sequence>
+			<xsd:element name="requestedBy" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="requestedName" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>"SalesUI", "CustomerUI"</xsd:documentation>
+				</xsd:annotation></xsd:element>
+			<xsd:element name="serviceVersion" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="targetService" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="businessUnit" type="ctx:BusinessContext" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!--
+		Exception
+			- Element: message must be adequate information to be shown to the user
+			- Element: detailedMessage can contain stack traces or any other technical information to 
+					   assist with troubleshooting
+	-->
+	<xsd:complexType name="Exception">
+		<xsd:sequence>
+			<xsd:element name="code" type="ctx:ExceptionCode"/>
+			<xsd:element name="severity" type="ctx:Severity"/>
+			<xsd:element name="occurredTime" type="xsd:dateTime"/>
+			<xsd:element name="message" type="xsd:string"/>
+			<xsd:element name="detailedMessage" type="xsd:string"/>
+			<xsd:element name="sourceSystem" type="ctx:SourceSystem"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ExceptionCollection">
+		<xsd:sequence>
+			<xsd:element name="exception" type="ctx:Exception" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>

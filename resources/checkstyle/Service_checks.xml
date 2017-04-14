@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+          "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+          "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+
+  Checkstyle configuration that checks the sun coding conventions from:
+
+    - the Java Language Specification at
+      http://java.sun.com/docs/books/jls/second_edition/html/index.html
+
+    - the Sun Code Conventions at http://java.sun.com/docs/codeconv/
+
+    - the Javadoc guidelines at
+      http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
+
+    - the JDK Api documentation http://java.sun.com/j2se/docs/api/index.html
+
+    - some best practices
+
+  Checkstyle is very configurable. Be sure to read the documentation at
+  http://checkstyle.sf.net (or in your downloaded distribution).
+
+  Most Checks are configurable, be sure to consult the documentation.
+
+  To completely disable a check, just comment it out or delete it from the file.
+
+  Finally, it is worth reading the documentation.
+
+-->
+
+<module name="Checker">
+    <!--
+        If you set the basedir property below, then all reported file
+        names will be relative to the specified directory. See
+        http://checkstyle.sourceforge.net/5.x/config.html#Checker
+    -->
+    
+    <module name="SuppressionCommentFilter"/>
+   
+    <!-- Checks that property files contain the same keys.         -->
+    <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+    <module name="Translation"/>
+    
+    <!-- Checks for Size Violations.                    -->
+    <!-- See http://checkstyle.sf.net/config_sizes.html -->
+    <module name="FileLength">
+        <property name="max" value="330"/>
+        <property name="fileExtensions" value="java"/>        
+    </module>
+    
+    <!-- Checks for Duplicate Code.                     -->
+    <module name="StrictDuplicateCode">
+        <property name="min" value="10"/>
+        <property name="fileExtensions" value="java"/>
+    </module>
+    
+    <!-- Checks for whitespace                               -->
+    <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+    <module name="FileTabCharacter"/>
+
+    <!-- Miscellaneous other checks.                   -->
+    <!-- See http://checkstyle.sf.net/config_misc.html -->
+    <module name="RegexpSingleline">
+       <property name="format" value="[^*]+\s+$"/>
+       <property name="message" value="Line has trailing spaces."/>
+    </module>
+
+    <module name="TreeWalker">
+	<property name="cacheFile" value=""/> 
+        <property name="tabWidth" value="4"/>
+        
+        <!-- Used with the suppression comment filter -->
+        <module name="FileContentsHolder"/>
+        
+        <!-- Checks for Javadoc comments.                     -->
+        <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+        <!-- Ignore javadoc checks for OriginationApplication instead build these as part of code formatter within IDE
+            <module name="JavadocVariable"/>
+            <module name="JavadocStyle"/>
+       -->         
+         <module name="JavadocMethod">
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="excludeScope" value="private"/>
+        </module>
+         <module name="JavadocType"/>
+	
+
+        <!-- Checks for whitespace                               -->
+        <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+        <!-- Ignore whitespace checks for OriginationApplication Instead build these as part of code formatter within IDE
+            <module name="EmptyForIteratorPad"/>
+            <module name="GenericWhitespace"/>
+            <module name="MethodParamPad"/>
+            <module name="NoWhitespaceAfter"/>
+            <module name="NoWhitespaceBefore"/>
+            <module name="OperatorWrap"/>
+            <module name="ParenPad"/>
+            <module name="TypecastParenPad"/>
+            <module name="WhitespaceAfter"/>
+            <module name="WhitespaceAround"/>
+        -->
+        
+        <!-- Checks for Naming Conventions.                  -->
+        <!-- See http://checkstyle.sf.net/config_naming.html -->
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9_]*)*$"/>
+        </module>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+
+        <!-- Checks for Headers                                -->
+        <!-- See http://checkstyle.sf.net/config_header.html   -->
+        <!-- <module name="Header">                            -->
+            <!-- The follow property value demonstrates the ability     -->
+            <!-- to have access to ANT properties. In this case it uses -->
+            <!-- the ${basedir} property to allow Checkstyle to be run  -->
+            <!-- from any directory within a project. See property      -->
+            <!-- expansion,                                             -->
+            <!-- http://checkstyle.sf.net/config.html#properties        -->
+            <!-- <property                                              -->
+            <!--     name="headerFile"                                  -->
+            <!--     value="${basedir}/java.header"/>                   -->
+        <!-- </module> -->
+
+        <!-- Following interprets the header file as regular expressions. -->
+        <!-- <module name="RegexpHeader"/>                                -->
+
+        <!-- Checks for imports                              -->
+        <!-- See http://checkstyle.sf.net/config_import.html -->
+        <module name="AvoidStarImport"/>
+        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.sf.net/config_sizes.html -->
+        <module name="LineLength">
+            <property name="max" value="120"/>
+            <property name="ignorePattern" value="^import"/>
+        </module>
+        
+        <!-- Don't allow too many executable statements per method -->
+        <module name="ExecutableStatementCount">
+            <property name="max" value="44"/>
+        </module>
+        
+        <module name="MethodLength">
+            <property name="max" value="33"/>
+            <property name="countEmpty" value="false"/>
+        </module>
+        
+        <module name="ParameterNumber">
+            <property name="max" value="10"/>
+        </module>
+        
+        <!-- Checks for long anonymous inner classes -->
+        <module name="AnonInnerLength">
+            <property name="max" value="60"/>
+        </module>
+
+        <!-- Checks for Complexities                             -->
+        <module name="ClassFanOutComplexity">
+            <property name="max" value="25"/>
+        </module>
+        
+        <module name="CyclomaticComplexity">
+            <property name="max" value="7"/>
+        </module>
+        
+        <module name="NPathComplexity">
+            <property name="max" value="20"/>
+        </module>
+
+        <!-- Modifier Checks                                    -->
+        <!-- See http://checkstyle.sf.net/config_modifiers.html -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html -->
+        <module name="AvoidNestedBlocks"/>
+        <module name="EmptyBlock"/>
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <module name="EmptyStatement"/>
+        <module name="EqualsHashCode"/>
+        <module name="IllegalInstantiation"/>
+        <module name="InnerAssignment"/>
+        <module name="StringLiteralEquality"/>
+        <module name="MagicNumber">
+            <property name="ignoreAnnotation" value="true"/>
+        </module>
+        
+        <!-- check for deeply nested ifs -->
+        <module name="NestedIfDepth">
+            <property name="max" value="2"/>
+        </module>
+        
+        <!-- check for spaces in parentheses -->
+        <module name="ParenPad"/>
+        
+        <!-- check for nested trys -->
+        <module name="NestedTryDepth"/>
+        
+        <module name="IllegalType">
+            <property name="format" value="^$"/>
+        </module>
+        
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="System\.out|System\.err|junit.textui"/>
+            <property name="ignoreComments" value="true"/>
+        </module>
+        
+        <!-- Check overridden super invokes super.clone -->
+        <module name="SuperClone"/>
+        
+        <!-- Check overridden finalize invokes super.finalize -->
+        <module name="SuperFinalize"/>
+        
+        <module name="ExplicitInitialization"/>
+        
+        <!-- Check for parameter assignment -->
+        <module name="ParameterAssignment"/>
+        
+        <!-- Enforce default on switch statement -->
+        <module name="MissingSwitchDefault"/>
+        
+        <!-- Check for declaration order -->
+        <module name="DeclarationOrder"/>
+        
+        <!-- Check for unneeded parentheses -->
+        <module name="UnnecessaryParentheses"/>
+        
+        <!-- Enforce default is always last in a switch statement -->
+        <module name="DefaultComesLast"/>
+        
+        <!-- Don't allow control variable to be modified inside a for loop -->
+        <module name="ModifiedControlVariable"/>
+        
+        <module name="RedundantThrows"/>
+        
+        <!-- Eliminate if (blah == true)... -->
+        <module name="SimplifyBooleanExpression"/>
+        
+        <!-- Eliminate if (blah) return true; else return false; -->
+        <module name="SimplifyBooleanReturn"/>
+        
+        <!-- Check that equals is overridden properly -->
+        <module name="CovariantEquals"/>
+        
+        <!-- Checks for class design                         -->
+        <!-- See http://checkstyle.sf.net/config_design.html -->
+        <module name="FinalClass"/>
+        <module name="HideUtilityClassConstructor"/>
+        <module name="VisibilityModifier">
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="ArrayTypeStyle"/>
+        <module name="TodoComment">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="UpperEll"/>
+
+    </module>
+
+</module>
